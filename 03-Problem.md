@@ -1,27 +1,31 @@
 # Problem
 
 ## Description
-The tablet experienced session instability, requiring manual re-authentication every 2–3 days.
+A Samsung Galaxy Tab A8 was deployed as a Paycom kiosk time clock device, but the connection was unstable across multiple network methods.
+
+The device initially worked on guest Wi-Fi after MAC address whitelisting, but it lost connectivity again after a few days. A second attempt using an existing Ethernet connection from a previous Marriott-provided device also worked temporarily before failing.
 
 ---
 
 ## Symptoms
-- Paycom kiosk logged out unexpectedly
-- Authentication email required again
-- Session/cookies not persisting reliably
-- Device occasionally blocked by network
+- Paycom kiosk stopped working after several days
+- Device required repeated recovery actions
+- Guest Wi-Fi path was not stable for long-term kiosk use
+- Ethernet connection later lost internet access
+- Device remained physically connected but could not reach the internet
 
 ---
 
-## Impact
-- Operational disruption for employees
-- Increased manual intervention
-- Reduced reliability of time tracking system
+## Business Impact
+- Employees could not reliably use the tablet to clock in/out
+- Manual intervention was required repeatedly
+- The kiosk could not be trusted as a stable production device
 
 ---
 
-## Initial Hypothesis
-Possible causes:
-- App configuration issue
-- Android system restrictions
-- Network-level authentication resets
+## Initial Hypotheses
+Possible causes included:
+- Browser session or cookie loss
+- Employees accidentally exiting or changing the app
+- Captive portal or guest network instability
+- Network-level enforcement blocking the device

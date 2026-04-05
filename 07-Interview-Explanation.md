@@ -1,36 +1,26 @@
 # Interview Explanation
 
-## How I Identified It Was a Network Issue
+## How I Identified the Real Problem
 
-The problem continued even after I changed multiple device-level and application-level settings.
+At first, the tablet was connected through guest Wi-Fi and MAC-whitelisted, but it only worked for a few days before failing again. Because of that, I first checked whether the issue was related to the browser, user interaction, or cookie loss.
 
-I tested:
-- Fully Kiosk Browser configuration
-- Android battery and background activity settings
-- MAC address whitelisting
-- Ethernet connectivity
+I deployed Fully Kiosk Browser to lock the device into kiosk mode and tested cookie persistence. After confirming that cookies were not being cleared, I ruled out the browser as the primary cause.
 
-If the issue had been caused only by the application, I would have expected the behavior to improve after adjusting the kiosk browser and Android system settings.
+Next, I tested the Ethernet line that had been used by the previous Marriott-provided device. That also worked temporarily, which showed that the tablet itself could function correctly on Ethernet. But when it failed again, I investigated deeper at the network level.
 
-However, the problem persisted across all of those changes.
+Using a network diagnostic tool on the tablet, I confirmed that the device could still see internal hosts on the Marriott private network. Then I triggered a connectivity check URL and was redirected to a Marriott NAC enforcement page indicating the device had been blocked for non-compliance.
 
-That told me the root cause was probably outside the tablet itself.
+That was the turning point. It showed me the problem was not the app and not simply physical connectivity. The real issue was that the device was being placed on network paths that were not suitable for its use case.
 
-The biggest clue was that the device was operating on a guest Wi-Fi network with a captive portal. Those networks are designed for temporary guest sessions, not for persistent kiosk devices that must stay authenticated for long periods.
+## My Logic
+I isolated the problem step by step:
+1. Browser behavior
+2. Cookie persistence
+3. Ethernet functionality
+4. Internal network reachability
+5. Internet access control behavior
 
-Even after whitelisting the MAC address, the device still experienced instability, which suggested that the network design itself was the limitation.
-
-## My Troubleshooting Logic
-
-I approached the issue by isolating variables:
-
-1. Device settings
-2. Application behavior
-3. Network authentication method
-4. Alternate connection method (Ethernet)
-
-Because the issue remained after changes in steps 1 through 4, I concluded that the problem was network-level rather than app-level.
+Once I confirmed the tablet only needed internet access, I stopped trying to force it into the Marriott-managed private network. Instead, I moved it to a more appropriate connection path by running a new Ethernet cable from a different switch and coordinating with Blueprint to open the port.
 
 ## What I Would Say in an Interview
-
-I identified it as a network issue because the problem persisted even after I changed the app configuration, Android background settings, and connection method. I also tested MAC whitelisting, which removed part of the captive portal friction but did not fully stabilize the device. That told me the issue was not just the tablet or the browser. Since the device was running on a guest network with a captive portal, I concluded that the root cause was the network design, which was not intended for a persistent kiosk device.
+I started by testing the most likely explanations, such as browser session loss or accidental user interaction. After locking the device in Fully Kiosk and confirming that cookies were still present, I shifted to the network layer. When Ethernet also failed later, I used network diagnostics and a connectivity check URL to confirm the tablet had been blocked by Marriott NAC for non-compliance. At that point, I recognized the device did not need private network access at all, only internet access, so I redesigned the connection path by running a new cable from a different switch and having the port enabled by the provider. That made the kiosk stable.

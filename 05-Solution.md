@@ -1,34 +1,36 @@
 # Solution
 
-## Short-Term Fix
-- MAC address whitelisting
-- Optimized kiosk browser configuration
-- Disabled Android restrictions affecting sessions
-
----
-
-## Limitations
-- Issue not fully resolved
-- Session resets still occurred intermittently
-
----
-
 ## Root Cause
-Captive portal networks are not designed for persistent authenticated devices.
+The issue was not caused by cookie deletion or kiosk browser misconfiguration.
 
-They periodically reset sessions, invalidating authentication tokens.
-
----
-
-## Proposed Long-Term Solution
-- Move device to private VLAN
-- Assign static IP address
-- Remove dependency on captive portal
-- Use wired Ethernet connection if possible
+The tablet was being affected by network design and enforcement decisions across two different paths:
+- Guest Wi-Fi was not reliable enough for a persistent kiosk device
+- Marriott private network access was later blocked by NAC due to non-compliance
 
 ---
 
-## Expected Result
-- Stable persistent connection
-- No login interruptions
-- Enterprise-level reliability
+## Final Solution
+Instead of continuing to force the device into a managed network path it did not need, the connection strategy was changed.
+
+Actions taken:
+- Located an alternative switch used for wireless access infrastructure
+- Ran a new Ethernet cable to the tablet location
+- Worked with Blueprint to enable the required switch port
+- Moved the tablet onto a stable internet-only connection path
+
+---
+
+## Why This Worked
+The Paycom kiosk only required internet access.
+
+It did not require privileged access to Marriott internal resources, so keeping it on a tightly controlled private network introduced unnecessary risk and instability.
+
+By moving the device to a simpler and more appropriate network path, the kiosk became stable and production-ready.
+
+---
+
+## Outcome
+- Stable internet connectivity
+- Reliable Paycom kiosk operation
+- Reduced recurring troubleshooting effort
+- Better fit between device purpose and network design

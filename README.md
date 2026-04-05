@@ -40,3 +40,20 @@ This project demonstrates real-world troubleshooting in a managed network with r
 - 04-Troubleshooting.md
 - 05-Solution.md
 - 06-Lessons-Learned.md
+
+  ---
+
+## Visual Evidence
+The following images document physical setup, network validation, and application behavior observed during troubleshooting.
+
+### Physical Network Connection
+![Switch Port Link](images/01-switch-port-link.jpg)
+
+### Tablet Ethernet Integration
+![Tablet Ethernet Adapter](images/02-tablet-ethernet-adapter.jpg)
+
+### Network Detection on Device
+![Tablet LAN Scan](images/03-tablet-lan-scan.jpg)
+
+### Application Behavior (Paycom)
+![Paycom Registration](images/04-paycom-registration-status.jpg)
